@@ -1,7 +1,7 @@
 # Visual Studio 2015 user specific files
-.vs/
+.vscode
 
-fred.txt
+
 
 # Compiled Object files
 *.slo
