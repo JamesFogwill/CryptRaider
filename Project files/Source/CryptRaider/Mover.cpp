@@ -2,6 +2,7 @@
 
 
 #include "Mover.h"
+#include "MATH/UnrealMathUtility.h"
 
 // Sets default values for this component's properties
 UMover::UMover()
@@ -19,7 +20,16 @@ void UMover::BeginPlay()
 {
 	Super::BeginPlay();
 
-	UE_LOG(LogTemp, Display, TEXT("I have a mover attached"));
+	AActor* PtrOwner = GetOwner();
+	FVector PtrOwnerLocation = PtrOwner ->GetActorLocation();
+	FString PtrOwnerName = PtrOwner ->GetActorNameOrLabel();
+	FString PtrOwnerLocationStr = PtrOwnerLocation.ToCompactString();
+
+	UE_LOG(LogTemp, Display, TEXT("The %s Actor is at location: %s"), *PtrOwnerName, *PtrOwnerLocationStr);
+	UE_LOG(LogTemp, Display, TEXT("Mover Owner Address: %u"),PtrOwner); 
+	
+
+	StartLocation = PtrOwner -> GetActorLocation();
 	
 }
 
@@ -29,6 +39,14 @@ void UMover::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponent
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	// ...
+	if(Move){
+
+		FVector CurrentLocation = GetOwner() -> GetActorLocation(); // call the getactorlocation function on the owning actor.
+		FVector TargetLocation = StartLocation + MoveDistance;
+		float Speed = FVector::Distance(StartLocation, TargetLocation) / MoveTime; // speed = d/t using the distance function in the fvector class
+		FVector NewLocation = FMath::VInterpConstantTo(CurrentLocation, TargetLocation, DeltaTime, Speed);// interpolates vector to new vector at constant step
+		GetOwner() -> SetActorLocation(NewLocation);
+
+	}
 }
 

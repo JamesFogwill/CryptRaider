@@ -3,18 +3,18 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/ActorComponent.h"
-#include "Mover.generated.h"
+#include "Components/SceneComponent.h"
+#include "Grabber.generated.h"
 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class CRYPTRAIDER_API UMover : public UActorComponent
+class CRYPTRAIDER_API UGrabber : public USceneComponent
 {
 	GENERATED_BODY()
 
 public:	
 	// Sets default values for this component's properties
-	UMover();
+	UGrabber();
 
 protected:
 	// Called when the game starts
@@ -27,13 +27,8 @@ public:
 private:
 
 	UPROPERTY(EditAnywhere)
-	float MoveTime;
-
+	float MaxGrabDistance = 400;
+	
 	UPROPERTY(EditAnywhere)
-	FVector MoveDistance;
-
-	FVector StartLocation;
-
-	UPROPERTY(EditAnywhere)
-	bool Move = false;
+	float GrabRadius = 100;
 };
